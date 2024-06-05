@@ -18,68 +18,54 @@ class MainWindow(QWidget):
         self.initUI()
 
     def initUI(self):
-        self.setWindowTitle("Окно")
-        # self.setGeometry(450, 450, 900, 500)
-
+        self.setWindowTitle("Calculation Tool")
         self.setStyleSheet("background-color:#faf8f0;")
 
         self.a_label = QLabel("Введите значение A:")
         self.a_input = QLineEdit()
-        self.a_input.setFixedWidth(100)
-        self.a_input.setFixedHeight(40)
-        self.a_input.setStyleSheet("background-color:white;")
-        font = self.a_input.font()
-        font.setPointSize(16)
-        self.a_input.setFont(font)
+        self.setup_input(self.a_input)
 
         self.b_label = QLabel("Введите значение Сигмы:")
         self.b_input = QLineEdit()
-        self.b_input.setFixedWidth(100)
-        self.b_input.setFixedHeight(40)
-        self.b_input.setStyleSheet("background-color:white;")
-        font = self.b_input.font()
-        font.setPointSize(16)
-        self.b_input.setFont(font)
+        self.setup_input(self.b_input)
 
         self.n_label = QLabel("Введите значение N:")
         self.n_input = QLineEdit()
-        self.n_input.setFixedWidth(100)
-        self.n_input.setFixedHeight(40)
-        self.n_input.setStyleSheet("background-color:white;")
-        font = self.n_input.font()
-        font.setPointSize(16)
-        self.n_input.setFont(font)
+        self.setup_input(self.n_input)
 
         self.calculate_button = QPushButton("Рассчитать")
-        self.calculate_button.setStyleSheet("padding: 15px; background-color: white")
-        font = self.calculate_button.font()
-        font.setPointSize(13)
-        self.calculate_button.setFont(font)
+        self.calculate_button.setStyleSheet("""
+            QPushButton {
+                padding: 10px 20px; 
+                background-color: #6c757d; 
+                color: white; 
+                border-radius: 10px;
+                font-size: 16px;
+            }
+            QPushButton:hover {
+                background-color: #5a6268;
+            }
+        """)
 
         self.result_text = QTextEdit()
-        self.result_text.setStyleSheet("background-color: white")
-        self.result_text.setFontPointSize(14)
-        self.result_text.setFixedHeight(200)
+        self.result_text.setStyleSheet("""
+            QTextEdit {
+                background-color: white;
+                border: 1px solid #ced4da;
+                border-radius: 10px;
+                font-size: 16px;
+                padding: 10px;
+            }
+        """)
+        self.result_text.setReadOnly(True)
 
         self.delta_text1_label = QLabel("Δ_1:")
         self.delta_text1 = QLineEdit()
-        self.delta_text1.setStyleSheet("background-color: white")
-        self.delta_text1.setReadOnly(True)
-        self.delta_text1.setFixedHeight(50)
-        self.delta_text1.setFixedWidth(140)
-        font = self.delta_text1.font()
-        font.setPointSize(16)
-        self.delta_text1.setFont(font)
+        self.setup_output(self.delta_text1)
 
         self.delta_text2_label = QLabel("Δ_2:")
         self.delta_text2 = QLineEdit()
-        self.delta_text2.setStyleSheet("background-color: white")
-        self.delta_text2.setReadOnly(True)
-        self.delta_text2.setFixedHeight(50)
-        self.delta_text2.setFixedWidth(140)
-        font = self.delta_text2.font()
-        font.setPointSize(16)
-        self.delta_text2.setFont(font)
+        self.setup_output(self.delta_text2)
 
         hbox1 = QHBoxLayout()
         hbox1.addWidget(self.a_label)
@@ -88,28 +74,51 @@ class MainWindow(QWidget):
         hbox1.addWidget(self.b_input)
         hbox1.addWidget(self.n_label)
         hbox1.addWidget(self.n_input)
-
+        hbox1.addStretch()
 
         delta_layout = QHBoxLayout()
         delta_layout.addWidget(self.delta_text1_label)
         delta_layout.addWidget(self.delta_text1)
         delta_layout.addWidget(self.delta_text2_label)
         delta_layout.addWidget(self.delta_text2)
-        delta_layout.addStretch(1)
-
+        delta_layout.addStretch()
 
         layout = QVBoxLayout()
         layout.addLayout(hbox1)
         layout.addLayout(delta_layout)
-        # layout.addWidget(self.delta_text)
-        # layout.addWidget(self.delta_text1)
-        # layout.addWidget(self.delta_text2)
         layout.addWidget(self.result_text)
         layout.addWidget(self.calculate_button)
-        layout.addStretch(1)
+        layout.addStretch()
         self.setLayout(layout)
 
         self.calculate_button.clicked.connect(self.calculate)
+
+    def setup_input(self, input_widget):
+        input_widget.setFixedWidth(100)
+        input_widget.setFixedHeight(40)
+        input_widget.setStyleSheet("""
+            QLineEdit {
+                background-color: white;
+                border: 1px solid #ced4da;
+                border-radius: 10px;
+                padding: 5px;
+                font-size: 16px;
+            }
+        """)
+
+    def setup_output(self, output_widget):
+        output_widget.setFixedWidth(140)
+        output_widget.setFixedHeight(40)
+        output_widget.setReadOnly(True)
+        output_widget.setStyleSheet("""
+            QLineEdit {
+                background-color: white;
+                border: 1px solid #ced4da;
+                border-radius: 10px;
+                padding: 5px;
+                font-size: 16px;
+            }
+        """)
 
     def m(self, arr):
         return round((sum(arr)) / len(arr), 4)
@@ -151,12 +160,11 @@ class MainWindow(QWidget):
         self.delta_text2.clear()
         self.delta_text1.setText(f"{delta_1:.4f}")
         self.delta_text2.setText(f"{delta_2:.4f}")
-        # self.delta_text.append(f'Δ_1: {delta_1:.4f}\nΔ_2: {delta_2:.4f}')
 
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
-    app.setStyle("Windows")
+    app.setStyle("Fusion")
     mainWindow = MainWindow()
     mainWindow.show()
     sys.exit(app.exec_())
