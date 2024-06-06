@@ -6,30 +6,18 @@ def simulate_cosine_random_variable(N, q):
     # Генерация N значений из равномерного распределения на интервале (0, 1)
     u = np.random.uniform(0, 1, N)
     
-    # Преобразование значений с использованием обратной функции f(x) = cos(x)
-    # f^(-1)(y) = arccos(y)
-    # Поскольку f(x) определена на интервале (pi/2, 0), ее значения (cos(x)) будут на интервале (0, 1)
-    # x = np.arccos(u * np.cos(0))
-    x = np.sin(u)
-    # x = u**4
-    
-    # Вычисление среднего и дисперсии
+    x = u**(1/4)
     mean = np.mean(x)
     variance = np.var(x)
     
     return x, mean, variance
 
 # Точные значения среднего и дисперсии для f(x) = cos(x) на интервале (pi/2, 0)
-exact_mean = exact_mean = 1 - np.cos(1)
-
-sin_1 = np.sin(1)
-cos_1 = np.cos(1)
-
-exact_variance = (1 / (1 - 0)) * ((sin_1 - exact_mean)**2)
-
+exact_mean = 0.8
+exact_variance = 0.0267
 
 # Параметры
-q = 14
+q = 15
 N_values = [1, 250, 500, 1000]
 
 # Список для хранения результатов
